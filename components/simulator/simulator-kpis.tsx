@@ -19,29 +19,29 @@ interface SimulatorKPIsProps {
 }
 
 export function SimulatorKPIs({
-  totalMonthlyOutPocket, 
-  paymentQurtuba, 
+  totalMonthlyOutPocket,
+  paymentQurtuba,
   monthlyCharges, // Récupéré ici
-  qualifyingIncome, 
+  qualifyingIncome,
   statsWealth,
-  wealthHorizon, 
-  setWealthHorizon, 
+  wealthHorizon,
+  setWealthHorizon,
   totalRentPaid, // Récupéré ici
-  interestSaved, 
-  timeSaved, 
-  currency, 
+  interestSaved,
+  timeSaved,
+  currency,
   formatMonthsToYears
 }: SimulatorKPIsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
+
         {/* 1. BUDGET MENSUEL (Refondu avec sous-sections) */}
         <Card className="relative overflow-hidden group hover:shadow-lg transition-all border-l-4 border-l-primary">
             <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground uppercase">Mensualité Totale</CardTitle></CardHeader>
             <CardContent>
                 {/* Gros Chiffre Total */}
                 <div className="text-3xl font-bold text-foreground mb-4">{currency.format(totalMonthlyOutPocket)}</div>
-                
+
                 {/* Sous-sections : Qurtuba vs Charges */}
                 <div className="grid grid-cols-2 gap-2 pt-3 border-t border-border/60">
                     <div className="flex flex-col gap-1">
@@ -93,16 +93,16 @@ export function SimulatorKPIs({
             <CardContent>
                 {/* On affiche le total payé en loyer */}
                 <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">{currency.format(totalRentPaid)}</div>
-                
+
                 {/* Si on a fait des économies, on l'affiche en dessous comme un bonus */}
                 {interestSaved > 0 ? (
                     <div className="mt-2 inline-flex flex-col items-start">
-                         <div className="text-xs font-bold text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded">
-                             Économie : -{currency.format(interestSaved)}
-                         </div>
-                         <p className="text-[10px] text-muted-foreground mt-1 ml-1">
-                             Gagné : {formatMonthsToYears(timeSaved)}
-                         </p>
+                        <div className="text-xs font-bold text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded">
+                            Économie : -{currency.format(interestSaved)}
+                        </div>
+                        <p className="text-[10px] text-muted-foreground mt-1 ml-1">
+                            Gagné : {formatMonthsToYears(timeSaved)}
+                        </p>
                     </div>
                 ) : (
                     <p className="text-xs text-muted-foreground mt-2">Total des frais sur la durée</p>
@@ -110,5 +110,5 @@ export function SimulatorKPIs({
             </CardContent>
         </Card>
     </div>
-  );
+    );
 }

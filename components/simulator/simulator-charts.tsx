@@ -12,6 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Download } from "lucide-react";
 import { SimulationResult, ScheduleRow } from "@/lib/qurtuba-logic";
 
+// --- TYPES LOCAUX ---
 interface ChartDataPoint {
   month: number;
   balanceAccelerated: number;
@@ -19,9 +20,20 @@ interface ChartDataPoint {
   interestPaid: number;
   principalPaid: number;
 }
+
 interface EnrichedScheduleRow extends ScheduleRow {
   houseValue: number;
   netEquity: number;
+}
+
+// NOUVEAU : Type unifié pour les lignes du tableau (Mensuel ou Annuel)
+interface TableRowData {
+  month: string | number; // Accepte "1" ou "Année 1"
+  rentPayment: number;
+  principalPayment: number;
+  totalPayment: number;
+  remainingBankBalance: number;
+  isYearly?: boolean;
 }
 
 interface SimulatorChartsProps {
@@ -41,17 +53,23 @@ export function SimulatorCharts({
   chartView, setChartView, chartData, enrichedSchedule, simulation, price, monthlyCharges, isDark, currency, onExport 
 }: SimulatorChartsProps) {
     
-  // Visual config
+  // --- CONFIGURATION VISUELLE ---
   const opacityStart = isDark ? 0.9 : 0.85;
   const opacityEnd = isDark ? 0.3 : 0.15;
   const gridOpacity = isDark ? 0.15 : 0.5;
 
+  // --- STATE TABLEAU ---
   const [isYearlyView, setIsYearlyView] = useState(true);
 
-  // 1. DATA TABLEAU
-  const tableData = useMemo(() => {
+  // --- CALCULS DONNÉES ---
+
+  // 1. Agrégation pour le Tableau
+  const tableData = useMemo<TableRowData[]>(() => {
+      // Si vue mensuelle, on retourne le schedule tel quel
       if (!isYearlyView) return simulation.schedule;
-      const yearlyData = [];
+      
+      // Si vue annuelle, on agrège
+      const yearlyData: TableRowData[] = [];
       let currentYear = 0;
       let accRent = 0; let accPrincipal = 0; let accTotal = 0;
 
@@ -59,6 +77,7 @@ export function SimulatorCharts({
           accRent += row.rentPayment;
           accPrincipal += row.principalPayment;
           accTotal += row.totalPayment;
+          
           if ((row.month % 12 === 0) || index === simulation.schedule.length - 1) {
               currentYear++;
               yearlyData.push({
@@ -75,7 +94,7 @@ export function SimulatorCharts({
       return yearlyData;
   }, [simulation.schedule, isYearlyView]);
 
-  // 2. DATA DONUT
+  // 2. Données pour le Donut
   const pieData = useMemo(() => {
       const totalInterest = simulation.totalInterestPaid;
       const totalCharges = monthlyCharges * simulation.actualDurationMonths;
@@ -91,8 +110,10 @@ export function SimulatorCharts({
 
   const grandTotalOut = useMemo(() => pieData.reduce((acc, curr) => acc + curr.value, 0), [pieData]);
 
+
   return (
     <Tabs defaultValue="chart" className="w-full">
+         
          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <TabsList className="grid w-full md:w-auto grid-cols-2">
                 <TabsTrigger value="chart">Analyse Visuelle</TabsTrigger>
@@ -107,7 +128,6 @@ export function SimulatorCharts({
         </div>
 
         <TabsContent value="chart" className="mt-0">
-            {/* On utilise flex center pour tout centrer parfaitement */}
             <Card className="h-[500px] p-2 md:p-6 shadow-md border-border bg-card transition-colors duration-300 flex items-center justify-center">
                 <div className="w-full h-full">
                     {chartView === 'evolution' ? (
@@ -158,12 +178,7 @@ export function SimulatorCharts({
                         </ResponsiveContainer>
 
                     ) : (
-                        // --- FIX DÉFINITIF LAYOUT DONUT ---
                         <div className="flex flex-col md:flex-row items-center justify-center h-full w-full px-4 gap-8">
-                            
-                            {/* CONTENEUR GRAPHIQUE FIXE : 320x320px 
-                                Cela garantit que le cercle et le texte soient toujours alignés 
-                            */}
                             <div className="relative w-[320px] h-[320px] flex-shrink-0">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <PieChart>
@@ -193,15 +208,12 @@ export function SimulatorCharts({
                                         />
                                     </PieChart>
                                 </ResponsiveContainer>
-                                
-                                {/* TEXTE CENTRAL : Position absolue dans le conteneur 320x320 */}
                                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                                     <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">Total Payé</span>
                                     <span className="text-xl font-bold text-foreground">{currency.format(grandTotalOut)}</span>
                                 </div>
                             </div>
 
-                            {/* LÉGENDE */}
                             <div className="flex flex-col gap-3 w-full max-w-[300px]">
                                 {pieData.map((item, index) => (
                                     <div key={index} className="flex items-center justify-between p-3 bg-muted/20 rounded-lg border border-border/50">
@@ -221,7 +233,7 @@ export function SimulatorCharts({
                 </div>
             </Card>
         </TabsContent>
-        
+
         <TabsContent value="table">
             <Card className="shadow-md border-border overflow-hidden">
                 <div className="flex items-center justify-between p-4 border-b bg-muted/30">
@@ -246,7 +258,8 @@ export function SimulatorCharts({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {tableData.map((row: any, i: number) => (
+                            {/* CORRECTION ICI : Type explicite 'TableRowData' */}
+                            {tableData.map((row: TableRowData, i: number) => (
                                 <TableRow key={i} className={`hover:bg-muted/50 ${row.isYearly ? "font-medium" : ""}`}>
                                     <TableCell className="font-mono text-xs text-muted-foreground">{row.month}</TableCell>
                                     <TableCell className="text-orange-500 font-bold">{currency.format(row.rentPayment)}</TableCell>

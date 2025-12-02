@@ -9,6 +9,8 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Settings2, Zap, TrendingUp, MapPin, Wallet, AlertTriangle } from "lucide-react";
+// 1. IMPORT DU TYPE
+import { SimulationResult } from "@/lib/qurtuba-logic";
 
 interface SimulatorControlsProps {
   price: number; setPrice: (v: number) => void;
@@ -24,7 +26,10 @@ interface SimulatorControlsProps {
   hydro: number; setHydro: (v: number) => void;
   maintenance: number; setMaintenance: (v: number) => void;
   currency: Intl.NumberFormat;
-  simulation: any;
+  
+  // 2. CORRECTION DU TYPE ICI
+  simulation: SimulationResult;
+  
   welcomeTax: number;
   notaryFees: number;
   startupFees: number;
@@ -34,7 +39,7 @@ interface SimulatorControlsProps {
 export function SimulatorControls({
   price, setPrice, downPayment, setDownPayment, durationYears, setDurationYears,
   extraMonthly, setExtraMonthly, extraAnnual, setExtraAnnual, 
-  appreciation, setAppreciation, // On récupère les props ici
+  appreciation, setAppreciation,
   isMontreal, setIsMontreal,
   municipalTax, setMunicipalTax, schoolTax, setSchoolTax, insurance, setInsurance,
   hydro, setHydro, maintenance, setMaintenance, currency, simulation,
@@ -97,7 +102,7 @@ export function SimulatorControls({
                   </div>
               </Card>
 
-              {/* COLONNE 2 : STRATÉGIE (Avec Appréciation Ajoutée) */}
+              {/* COLONNE 2 : STRATÉGIE */}
               <Card className="border-0 shadow-none bg-transparent space-y-4">
                   <h3 className="text-xs font-bold uppercase text-primary flex items-center gap-2"><TrendingUp className="h-3 w-3"/> Stratégie Accélérée</h3>
                   <div className="space-y-4 p-3 bg-primary/5 rounded-lg border border-primary/10">
@@ -115,7 +120,7 @@ export function SimulatorControls({
 
                       <Separator className="bg-primary/10"/>
 
-                      {/* AJOUT : Slider Appréciation */}
+                      {/* Slider Appréciation */}
                       <div className="space-y-2">
                           <div className="flex justify-between text-xs">
                               <Label className="flex items-center gap-1">Appréciation Maison (An)</Label>
