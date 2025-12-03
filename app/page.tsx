@@ -135,6 +135,19 @@ const handleExportCSV = () => {
                     onExport={handleExportCSV}
                   />
               </div>
+              {/* --- AJOUT : DISCLAIMER LEGAL --- */}
+              <footer className="pt-12 pb-6 px-4 text-center space-y-2 opacity-60 hover:opacity-100 transition-opacity">
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
+                      Avis de non-responsabilité
+                  </p>
+                  <p className="text-[10px] text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                      Ce simulateur est un outil pédagogique fourni à titre indicatif seulement. Il ne constitue pas une offre de financement officielle, ni un conseil financier professionnel.
+                      Les résultats sont des estimations basées sur les données saisies et peuvent différer des calculs réels de la Coopérative d&apos;habitation Qurtuba.
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">
+                      Veuillez contacter un représentant officiel pour une analyse personnalisée et contractuelle.
+                  </p>
+              </footer>
           </div>
       </div>
     </main>
