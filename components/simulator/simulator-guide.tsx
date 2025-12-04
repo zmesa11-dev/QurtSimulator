@@ -20,9 +20,9 @@ export function SimulatorGuide() {
           <span className="hidden sm:inline">Guide</span>
         </Button>
       </DialogTrigger>
-      
+
       {/* Contenu du Modal */}
-<DialogContent className="sm:max-w-2xl p-0 overflow-hidden border-border bg-card">        
+<DialogContent className="sm:max-w-2xl p-0 overflow-hidden border-border bg-card">
         {/* En-tête */}
         <div className="p-6 pb-2">
             <DialogHeader>
@@ -38,12 +38,12 @@ export function SimulatorGuide() {
         {/* Liste des étapes (Scrollable si l'écran est petit) */}
         <div className="p-6 pt-2 max-h-[70vh] overflow-y-auto">
             <div className="relative">
-                
+
                 {/* Ligne verticale de connexion (Timeline) */}
                 <div className="absolute left-[15px] top-4 bottom-4 w-[2px] bg-border/50 -z-10"></div>
 
                 <div className="space-y-8">
-                    
+
                     {/* ÉTAPE 1 : BLEU */}
                     <div className="flex gap-5">
                         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-blue-900/20 ring-4 ring-background">

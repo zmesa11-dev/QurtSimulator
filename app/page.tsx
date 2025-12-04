@@ -5,6 +5,7 @@ import { SimulatorHeader } from "@/components/simulator/simulator-header";
 import { SimulatorControls } from "@/components/simulator/simulator-controls";
 import { SimulatorKPIs } from "@/components/simulator/simulator-kpis";
 import { SimulatorCharts } from "@/components/simulator/simulator-charts";
+import { SimulatorFooter } from "@/components/simulator/simulator-footer";
 import { Button } from "@/components/ui/button";
 import { Lock } from "lucide-react";
 import { ScheduleRow } from "@/lib/qurtuba-logic";
@@ -35,7 +36,6 @@ export default function Home() {
 const handleExportCSV = () => {
     if (!enrichedSchedule.length) return;
     const headers = ["Mois,Loyer,Capital,Total,Solde,ValeurMaison,EquiteNette"];
-    // CORRECTION ICI : On type proprement 'r'
     const rows = enrichedSchedule.map((r: ScheduleRow & { houseValue: number; netEquity: number }) =>
       `${r.month},${r.rentPayment.toFixed(2)},${r.principalPayment.toFixed(2)},${r.totalPayment.toFixed(2)},${r.remainingBankBalance.toFixed(2)},${r.houseValue.toFixed(2)},${r.netEquity.toFixed(2)}`
     );
@@ -135,20 +135,8 @@ const handleExportCSV = () => {
                     onExport={handleExportCSV}
                   />
               </div>
-              {/* --- AJOUT : DISCLAIMER LEGAL --- */}
-              <footer className="pt-12 pb-6 px-4 text-center space-y-2 opacity-60 hover:opacity-100 transition-opacity">
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
-                      Avis de non-responsabilité
-                  </p>
-                  <p className="text-[10px] text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                      Ce simulateur est un outil pédagogique fourni à titre indicatif seulement. Il ne constitue pas une offre de financement officielle, ni un conseil financier professionnel.
-                      Les résultats sont des estimations basées sur les données saisies et peuvent différer des calculs réels de la Coopérative d&apos;habitation Qurtuba.
-                  </p>
-                  <p className="text-[10px] text-muted-foreground">
-                      Veuillez contacter un représentant officiel pour une analyse personnalisée et contractuelle.
-                  </p>
-              </footer>
           </div>
+          <SimulatorFooter />
       </div>
     </main>
   );
