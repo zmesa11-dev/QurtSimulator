@@ -27,6 +27,7 @@ export const translations = {
     duration: "Durée",
     years: "ans",
     configure: "Configurer",
+    close: "Fermer",
     masquer: "Masquer options",
     
     charges_title: "Charges Annuelles",
@@ -133,6 +134,7 @@ export const translations = {
     duration: "Duration",
     years: "years",
     configure: "Configure",
+    close: "Close",
     masquer: "Hide options",
     
     charges_title: "Annual Expenses",

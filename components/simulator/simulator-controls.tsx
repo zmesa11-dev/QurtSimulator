@@ -233,10 +233,10 @@ export function SimulatorControls(props: SimulatorControlsProps) {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const { currency, simulation } = props;
-  
+
   return (
     <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-4 md:py-6">
-      
+
       {/* MOBILE SUMMARY */}
       <div className="md:hidden flex items-center justify-between bg-muted/40 p-3 rounded-lg border border-border/60 mb-2">
           <div className="flex flex-col">
@@ -247,9 +247,10 @@ export function SimulatorControls(props: SimulatorControlsProps) {
                   <span className="text-xs font-medium">{props.durationYears} {t('years')}</span>
               </div>
           </div>
-          <Button size="sm" variant={isMobileExpanded ? "secondary" : "outline"} className="h-8 text-xs gap-2" onClick={() => setIsMobileExpanded(!isMobileExpanded)}>
-              <Edit3 className="h-3 w-3" /> {isMobileExpanded ? t('close') : t('configure')}
-          </Button>
+        <Button size="sm" variant={isMobileExpanded ? "secondary" : "outline"} className="h-8 text-xs gap-2" onClick={() => setIsMobileExpanded(!isMobileExpanded)}>
+            {/* On utilise t('masquer') au lieu de t('close') */}
+            <Edit3 className="h-3 w-3" /> {isMobileExpanded ? t('masquer') : t('configure')}
+        </Button>
       </div>
 
       {/* SLIDERS */}
