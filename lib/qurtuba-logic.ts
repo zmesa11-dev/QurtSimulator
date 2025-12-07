@@ -85,7 +85,7 @@ export class QurtubaSimulator {
       return 1300;
   }
 
-  public checkCompliance() {
+public checkCompliance() {
       const maxBankByRatio = this.price * 0.80;
       const maxBankCap = 400000;
       
@@ -98,7 +98,8 @@ export class QurtubaSimulator {
               minDownPayment: minDownPayment,
               maxBank: effectiveMaxBank,
               shortfall: minDownPayment - this.downPayment,
-              error: `Financement Max atteint (${effectiveMaxBank}$).`
+              // MODIFICATION ICI : On renvoie un CODE au lieu du texte
+              error: "MAX_LIMIT" 
           };
       }
 
